@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 OpenAI GPT-4.1 Nano Conversation - test3</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #f1f5f9;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-color: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --user-bg: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            --assistant-bg: linear-gradient(135deg, #10b981, #059669);
+            --code-bg: #f8fafc;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .header-info-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .model-info {
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .model-info h2 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .info-card h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-card-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stats {
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stats h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .messages {
+            padding: 2rem;
+            background: #fafbfc;
+        }
+
+        .messages h2 {
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .message {
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: var(--shadow);
+        }
+
+        .message.user .message-avatar {
+            background: var(--user-bg);
+        }
+
+        .message.assistant .message-avatar {
+            background: var(--assistant-bg);
+        }
+
+        .message-content {
+            flex: 1;
+            max-width: 70%;
+        }
+
+        .message-bubble {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 1px solid #bfdbfe;
+        }
+
+        .message.assistant .message-bubble {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 1px solid #bbf7d0;
+        }
+
+        .message-bubble::before {
+            content: '';
+            position: absolute;
+            top: 1rem;
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+        }
+
+        .message.user .message-bubble::before {
+            right: -15px;
+            border-left-color: #dbeafe;
+        }
+
+        .message.assistant .message-bubble::before {
+            left: -15px;
+            border-right-color: #dcfce7;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .message-role {
+            font-weight: 600;
+            text-transform: capitalize;
+            font-size: 0.9rem;
+        }
+
+        .message.user .message-role {
+            color: #1d4ed8;
+        }
+
+        .message.assistant .message-role {
+            color: #059669;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .message-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.7;
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .footer {
+            background: var(--secondary-color);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-links {
+            margin-top: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .header {
+                padding: 1.5rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .header-info {
+                grid-template-columns: 1fr;
+            }
+
+            .model-info, .stats, .messages {
+                padding: 1.5rem 1rem;
+            }
+
+            .info-grid, .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .message-bubble {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🤖 OpenAI GPT-4.1 Nano</h1>
+                <p class="header-subtitle">Conversation Export</p>
+                <div class="header-info">
+                    <div class="header-info-item">
+                        <strong>Agent ID:</strong> test3
+                    </div>
+                    <div class="header-info-item">
+                        <strong>Model:</strong> gpt-4.1-nano
+                    </div>
+                    <div class="header-info-item">
+                        <strong>Export Date:</strong> 2025-08-29 02:22:32
+                    </div>
+                    <div class="header-info-item">
+                        <strong>Temperature:</strong> 1.0
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="model-info">
+            <h2>📊 Model Information</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Model Name</h3>
+                    <div class="info-card-value">GPT-4.1 Nano</div>
+                </div>
+                <div class="info-card">
+                    <h3>Description</h3>
+                    <div class="info-card-value" style="font-size: 0.9rem; line-height: 1.4;">Lightweight GPT-4.1 model optimized for speed</div>
+                </div>
+                <div class="info-card">
+                    <h3>Timeout</h3>
+                    <div class="info-card-value">120s</div>
+                </div>
+                <div class="info-card">
+                    <h3>Cost Tier</h3>
+                    <div class="info-card-value">Economy</div>
+                </div>
+            </div>
+        </div>
+        <div class="stats">
+            <h2>📈 Conversation Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">Total Messages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">User Messages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">AI Messages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4,304</div>
+                    <div class="stat-label">Total Characters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1,076</div>
+                    <div class="stat-label">Avg Length</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">0:00:14</div>
+                    <div class="stat-label">Duration</div>
+                </div>
+            </div>
+        </div>
+        <div class="messages">
+            <h2>💬 Conversation</h2>
+            <div class="message user">
+                <div class="message-avatar">U</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <div class="message-header">
+                            <span class="message-role">User</span>
+                            <span class="message-time">2025-08-29 02:22:12</span>
+                        </div>
+                        <div class="message-text">give me a python code for snake game</div>
+                    </div>
+                </div>
+            </div>
+            <div class="message assistant">
+                <div class="message-avatar">AI</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <div class="message-header">
+                            <span class="message-role">Assistant</span>
+                            <span class="message-time">2025-08-29 02:22:22</span>
+                        </div>
+                        <div class="message-text">Certainly! Here&#x27;s a simple implementation of the Snake game using Python and the `pygame` library. Make sure you have `pygame` installed before running the code. You can install it via pip:<br><br><div class="code-block">bash
+pip install pygame</div><br><br>Here&#x27;s the complete code:<br><br><div class="code-block">python
+import pygame
+import sys
+import random
+
+# Initialize pygame
+pygame.init()
+
+# Screen dimensions
+width = 600
+height = 400
+
+# Colors
+white = (255, 255, 255)
+green = (0, 255, 0)
+red = (255, 0, 0)
+black = (0, 0, 0)
+
+# Set up display
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption(&#x27;Snake Game&#x27;)
+
+# Set clock for controlling the frame rate
+clock = pygame.time.Clock()
+
+# Snake parameters
+snake_block = 10
+snake_speed = 15
+
+font_style = pygame.font.SysFont(&quot;bahnschrift&quot;, 25)
+score_font = pygame.font.SysFont(&quot;comicsansms&quot;, 35)
+
+def message(msg, color, position):
+    mesg = font_style.render(msg, True, color)
+    screen.blit(mesg, position)
+
+def your_score(score):
+    value = score_font.render(&quot;Score: &quot; + str(score), True, black)
+    screen.blit(value, [0, 0])
+
+def gameLoop():
+    game_over = False
+    game_close = False
+
+    x1 = width / 2
+    y1 = height / 2
+
+    x1_change = 0
+    y1_change = 0
+
+    snake_list = []
+    length_of_snake = 1
+
+    # Place the first food
+    foodx = round(random.randrange(0, width - snake_block) / 10.0) * 10.0
+    foody = round(random.randrange(0, height - snake_block) / 10.0) * 10.0
+
+    score = 0
+
+    while not game_over:
+
+        while game_close:
+            screen.fill(white)
+            message(&quot;Game Over! Press C-Play Again or Q-Quit&quot;, red, [width / 6, height / 3])
+            your_score(score)
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        game_over = True
+                        game_close = False
+                    if event.key == pygame.K_c:
+                        gameLoop()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_over = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    x1_change = -snake_block
+                    y1_change = 0
+                elif event.key == pygame.K_RIGHT:
+                    x1_change = snake_block
+                    y1_change = 0
+                elif event.key == pygame.K_UP:
+                    y1_change = -snake_block
+                    x1_change = 0
+                elif event.key == pygame.K_DOWN:
+                    y1_change = snake_block
+                    x1_change = 0
+
+        if x1 &gt;= width or x1 &lt; 0 or y1 &gt;= height or y1 &lt; 0:
+            game_close = True
+
+        x1 += x1_change
+        y1 += y1_change
+        screen.fill(white)
+
+        # Draw food
+        pygame.draw.rect(screen, red, [foodx, foody, snake_block, snake_block])
+
+        # Draw snake
+        snake_Head = []
+        snake_Head.append(x1)
+        snake_Head.append(y1)
+        snake_list.append(snake_Head)
+
+        if len(snake_list) &gt; length_of_snake:
+            del snake_list[0]
+
+        # Check for collision with itself
+        for x in snake_list[:-1]:
+            if x == snake_Head:
+                game_close = True
+
+        for x in snake_list:
+            pygame.draw.rect(screen, green, [x[0], x[1], snake_block, snake_block])
+
+        your_score(score)
+
+        pygame.display.update()
+
+        # Check if snake eats the food
+        if x1 == foodx and y1 == foody:
+            foodx = round(random.randrange(0, width - snake_block) / 10.0) * 10.0
+            foody = round(random.randrange(0, height - snake_block) / 10.0) * 10.0
+            length_of_snake += 1
+            score += 10
+
+        clock.tick(snake_speed)
+
+    pygame.quit()
+    sys.exit()
+
+gameLoop()</div><br><br>**How to run the game:**<br>1. Save this code in a file named, for example, `snake_game.py`.<br>2. Ensure `pygame` is installed (`pip install pygame`).<br>3. Run the script: `python snake_game.py`.<br><br>**Controls:**<br>- Arrow keys to move the snake.<br>- When game over, press `C` to play again or `Q` to quit.<br><br>Enjoy your snake game!</div>
+                    </div>
+                </div>
+            </div>
+            <div class="message user">
+                <div class="message-avatar">U</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <div class="message-header">
+                            <span class="message-role">User</span>
+                            <span class="message-time">2025-08-29 02:22:26</span>
+                        </div>
+                        <div class="message-text">thanks</div>
+                    </div>
+                </div>
+            </div>
+            <div class="message assistant">
+                <div class="message-avatar">AI</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <div class="message-header">
+                            <span class="message-role">Assistant</span>
+                            <span class="message-time">2025-08-29 02:22:27</span>
+                        </div>
+                        <div class="message-text">You&#x27;re welcome! If you have any more questions or need further assistance, feel free to ask. Happy coding! 😊</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Generated by OpenAI Unified Agent • Agent ID: test3 • 2025-08-29 02:22:32</p>
+            <div class="footer-links">
+                <span>Model: GPT-4.1 Nano</span>
+                <span>•</span>
+                <span>Messages: 4</span>
+                <span>•</span>
+                <span>Export Format: HTML</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
