@@ -2,27 +2,37 @@
 
 **👨‍💻 Author: Simon-Pierre Boucher**  
 
-✨ A **professional, unified Python interface** for interacting with multiple **OpenAI models (GPT-4.1, GPT-4.1 Mini, GPT-4.1 Nano)**.  
-This system provides a **legendary user experience** with **advanced features** and a **modern CLI design**.  
+<div align="center">  
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)  
+![OpenAI](https://img.shields.io/badge/OpenAI-API-green?logo=openai&logoColor=white)  
+![License](https://img.shields.io/badge/License-MIT-yellow)  
+![Version](https://img.shields.io/badge/Version-1.0.0-purple)  
+
+**A professional, unified Python interface for GPT-4.1 models**  
+*Featuring GPT-4.1, GPT-4.1 Mini, and GPT-4.1 Nano with advanced CLI and conversation tools*  
+
+[📦 Features](#-features) • [⚙️ Installation](#-installation) • [🚀 Quick Start](#-quick-start) • [💬 Chat Commands](#-chat-commands) • [📊 Usage Examples](#-usage-examples) • [🏗️ Architecture](#-architecture) • [🎨 Deep Dive](#-features-deep-dive) • [🔧 Advanced Usage](#-advanced-usage) • [📝 License](#-license) • [🤝 Contributing](#-contributing)  
+
+</div>  
 
 ---
 
 ## ✨ Features  
 
 ### 🎯 Multi-Model Support  
-- 🔹 **GPT-4.1** → Advanced reasoning & comprehensive capabilities (5 min timeout)  
-- 🔹 **GPT-4.1 Mini** → Balanced performance & efficiency (3 min timeout)  
-- 🔹 **GPT-4.1 Nano** → Lightweight, speed-optimized model (2 min timeout)  
+- 🔹 **GPT-4.1** → Full advanced model (5 min timeout)  
+- 🔹 **GPT-4.1 Mini** → Balanced performance (3 min timeout)  
+- 🔹 **GPT-4.1 Nano** → Speed-optimized lightweight model (2 min timeout)  
 
 ### 🚀 Advanced Functionality  
-- 📁 **File Inclusion** via `{filename}` syntax  
-- 📤 **Multi-Format Export**: JSON, TXT, Markdown, HTML  
-- 💬 **Persistent Conversation History** with search & backup  
-- ⚙️ **Interactive Configuration** for easy setup  
-- ✨ **Professional CLI** with beautiful colors & intuitive commands  
+- 📁 File inclusion with `{filename}` syntax  
+- 📤 Multi-format export: JSON, TXT, Markdown, HTML  
+- 💬 Persistent history with search & backup  
+- ⚙️ Interactive configuration  
+- ✨ Modern, colorful CLI  
 
 ### 📁 File Support  
-Supports **50+ file types**, including:  
 - Programming: `.py`, `.js`, `.go`, `.rs`, etc.  
 - Config: `.json`, `.yaml`, `.toml`, etc.  
 - Docs: `.md`, `.rst`, `.tex`, etc.  
@@ -30,48 +40,38 @@ Supports **50+ file types**, including:
 
 ---
 
-## 🛠️ Installation  
+## ⚙️ Installation  
 
-1. 📥 **Clone or download the repository** (ensure you have these core files):  
-   - `main.py`  
-   - `agent.py`  
-   - `config.py`  
-   - `utils.py`  
-   - `export.py`  
-
-2. ⚙️ **Install dependencies**:  
+1. 📥 Clone/download the repo (ensure files: `main.py`, `agent.py`, `config.py`, `utils.py`, `export.py`)  
+2. ⚙️ Install dependencies:  
    ```bash
    pip install -r requirements.txt
    ```  
-
-3. 🔑 **Set up your OpenAI API key**:  
+3. 🔑 Set API key:  
    ```bash
-   # Option 1: Environment variable
    export OPENAI_API_KEY="your-api-key-here"
-
-   # Option 2: System prompt (stored securely)
    ```  
 
 ---
 
-## 🎯 Quick Start  
+## 🚀 Quick Start  
 
-- ▶️ **Create a new agent**:  
+- ▶️ Create agent:  
   ```bash
   python main.py --create
   ```  
 
-- 💬 **Start chatting**:  
+- 💬 Start chatting:  
   ```bash
   python main.py --agent-id my-agent
   ```  
 
-- 📋 **List all agents**:  
+- 📋 List agents:  
   ```bash
   python main.py --list
   ```  
 
-- 🔍 **Show available models**:  
+- 🔍 Show models:  
   ```bash
   python main.py --models
   ```  
@@ -82,117 +82,99 @@ Supports **50+ file types**, including:
 
 | Command | Description |
 |---------|-------------|
-| `help` | Show all available commands |
-| `history [n]` | Show last n messages (default: 5) |
-| `search <term>` | Search conversation history |
-| `stats` | Show conversation statistics |
-| `config` | Show current configuration |
-| `export <format>` | Export conversation (json/txt/md/html) |
-| `clear` | Clear conversation history |
-| `files` | List available files for inclusion |
-| `model` | Show current model information |
-| `switch <model>` | Switch to a different model |
+| `help` | Show commands |
+| `history [n]` | Last n messages |
+| `search <term>` | Search history |
+| `stats` | Show statistics |
+| `config` | Current config |
+| `export <format>` | Export chat |
+| `clear` | Clear history |
+| `files` | List files |
+| `model` | Show model info |
+| `switch <model>` | Switch model |
 | `quit` | Exit chat |  
 
 ---
 
 ## 📊 Usage Examples  
 
-### Basic Chat Session  
-```bash
-python main.py --agent-id my-coding-assistant --model gpt-4.1
-```  
-Chat Example:  
-```
-You: Hello! Can you help me with Python?  
-Assistant: Of course! I'd be happy to help you with Python...  
-```  
+- 🧑‍💻 Basic:  
+  ```bash
+  python main.py --agent-id coding --model gpt-4.1
+  ```  
 
-### File Inclusion  
-```
-You: Please review my code: {app.py}  
-Assistant: I'll review your app.py file...  
-```  
+- 📁 File inclusion:  
+  ```
+  You: Please review {app.py}
+  Assistant: Reviewing app.py...
+  ```  
 
-### Export Conversations  
-```bash
-python main.py --agent-id my-agent --export html  
-python main.py --agent-id my-agent --export json  
-```  
+- 📤 Export:  
+  ```bash
+  python main.py --agent-id my-agent --export html
+  python main.py --agent-id my-agent --export json
+  ```  
 
-### Configuration  
-```bash
-python main.py --agent-id my-agent --config  
-python main.py --agent-id my-agent --temperature 0.7
-```  
+- ⚙️ Config:  
+  ```bash
+  python main.py --agent-id my-agent --config
+  python main.py --agent-id my-agent --temperature 0.7
+  ```  
 
 ---
 
 ## 🏗️ Architecture  
 
-### Core Files  
-- **`main.py`** → Enhanced CLI interface  
-- **`agent.py`** → Unified agent logic  
-- **`config.py`** → Model settings  
-- **`utils.py`** → Shared utilities  
+- **`main.py`** → CLI interface  
+- **`agent.py`** → Core agent class  
+- **`config.py`** → Model configs  
+- **`utils.py`** → Helpers  
 - **`export.py`** → Export module  
 
-### Data Structure  
+Data layout:  
 ```
 agents/
-├── agent-id/
-│   ├── config.yaml      # Agent configuration
-│   ├── history.json     # Conversation history
-│   ├── secrets.json     # Secure API key storage
-│   ├── backups/         # Rolling backups
-│   ├── logs/            # Daily logs
-│   ├── exports/         # Exported conversations
-│   └── uploads/         # File uploads
+└── {agent-id}/
+    ├── config.yaml
+    ├── history.json
+    ├── secrets.json
+    ├── backups/
+    ├── logs/
+    ├── exports/
+    └── uploads/
 ```  
 
 ---
 
 ## 🎨 Features Deep Dive  
 
-- ⚡ **Model-Specific Optimizations** (timeouts adapted by model type)  
-- 📤 **Export Formats**: JSON, TXT, Markdown, HTML  
-- 🔐 **Security Features**: API key protection, `.gitignore` auto-updates, file limits  
-- 🛡️ **Error Handling**: retries, timeouts, logging  
+- ⚡ Model-specific optimizations  
+- 📤 Export formats: JSON, TXT, MD, HTML  
+- 🔐 Security: API key storage, `.gitignore`, input validation  
+- 🛡️ Error handling: retries, timeouts, logging  
 
 ---
 
 ## 🔧 Advanced Usage  
 
-- 🔑 **Environment Variables**: `OPENAI_API_KEY=your-key`  
-- ⚙️ **Configuration Options**: temperature, max tokens, prompts, streaming  
-- 🐞 **Error Handling**: retry logic, exponential backoff, logs  
+- 🔑 Env vars: `OPENAI_API_KEY=...`  
+- ⚙️ Options: temperature, max tokens, system prompt, streaming  
+- 🐞 Error handling: retry logic, logging  
 
 ---
 
 ## 🤝 Contributing  
 
-Contributions are welcome!  
-This project follows **best practices**:  
 - ✅ Type hints  
-- ✅ Modular architecture  
-- ✅ Comprehensive error handling  
-- ✅ Extensible design  
+- ✅ Modular design  
+- ✅ Error handling  
+- ✅ Extensible architecture  
 
 ---
 
-## 📄 License  
+## 📝 License  
 
-📜 Professional code for production use.  
-Ensure compliance with **OpenAI Terms of Service**.  
-
----
-
-## 🆘 Support  
-
-1. 📂 Check logs in `agents/<agent-id>/logs/`  
-2. 🔑 Validate API key  
-3. 🌐 Verify internet connection  
-4. 🔐 Ensure file permissions  
+MIT License — for professional and educational use.  
 
 ---
 
