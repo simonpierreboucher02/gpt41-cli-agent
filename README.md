@@ -9,10 +9,10 @@
 ![License](https://img.shields.io/badge/License-MIT-yellow)  
 ![Version](https://img.shields.io/badge/Version-1.0.0-purple)  
 
-**A professional, unified Python interface for GPT-4.1 models**  
-*Featuring GPT-4.1, GPT-4.1 Mini, and GPT-4.1 Nano with advanced CLI and conversation tools*  
+**A professional, unified Python CLI agent for OpenAI GPT-4.1 models**  
+*Supports GPT-4.1, GPT-4.1 Mini, and GPT-4.1 Nano with advanced conversation management and exports*  
 
-[📦 Features](#-features) • [⚙️ Installation](#-installation) • [🚀 Quick Start](#-quick-start) • [💬 Chat Commands](#-chat-commands) • [📊 Usage Examples](#-usage-examples) • [🏗️ Architecture](#-architecture) • [🎨 Deep Dive](#-features-deep-dive) • [🔧 Advanced Usage](#-advanced-usage) • [📝 License](#-license) • [🤝 Contributing](#-contributing)  
+[✨ Features](#-features) • [⚙️ Installation](#-installation) • [🚀 Quick Start](#-quick-start) • [💬 Chat Commands](#-chat-commands) • [📊 Usage Examples](#-usage-examples) • [🏗️ Architecture](#-architecture) • [🔧 Advanced Usage](#-advanced-usage) • [🔒 Security](#-security) • [🐛 Troubleshooting](#-troubleshooting) • [📄 License](#-license) • [🤝 Contributing](#-contributing)  
 
 </div>  
 
@@ -20,61 +20,73 @@
 
 ## ✨ Features  
 
-### 🎯 Multi-Model Support  
-- 🔹 **GPT-4.1** → Full advanced model (5 min timeout)  
-- 🔹 **GPT-4.1 Mini** → Balanced performance (3 min timeout)  
-- 🔹 **GPT-4.1 Nano** → Speed-optimized lightweight model (2 min timeout)  
-
-### 🚀 Advanced Functionality  
-- 📁 File inclusion with `{filename}` syntax  
-- 📤 Multi-format export: JSON, TXT, Markdown, HTML  
-- 💬 Persistent history with search & backup  
-- ⚙️ Interactive configuration  
-- ✨ Modern, colorful CLI  
-
-### 📁 File Support  
-- Programming: `.py`, `.js`, `.go`, `.rs`, etc.  
-- Config: `.json`, `.yaml`, `.toml`, etc.  
-- Docs: `.md`, `.rst`, `.tex`, etc.  
-- Web: `.html`, `.css`, `.graphql`, etc.  
+- 🔹 **All GPT-4.1 Models**: GPT-4.1, GPT-4.1 Mini, GPT-4.1 Nano  
+- 🎨 **Beautiful CLI**: Colorful interface, intuitive commands  
+- 📁 **File Inclusion**: `{filename}` syntax  
+- 📤 **Multi-format Export**: JSON, TXT, Markdown, HTML  
+- 💬 **Persistent History**: Storage with search & backup  
+- ⚙️ **Interactive Configuration**  
+- 🛡️ **Error Handling & Logging**  
 
 ---
 
 ## ⚙️ Installation  
 
-1. 📥 Clone/download the repo (ensure files: `main.py`, `agent.py`, `config.py`, `utils.py`, `export.py`)  
-2. ⚙️ Install dependencies:  
-   ```bash
-   pip install -r requirements.txt
-   ```  
-3. 🔑 Set API key:  
-   ```bash
-   export OPENAI_API_KEY="your-api-key-here"
-   ```  
+Clone the repository:  
+```bash
+git clone https://github.com/simonpierreboucher02/gpt41-cli-agent.git
+cd gpt41-cli-agent
+```
+
+Create and activate a virtual environment (recommended):  
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+Install dependencies:  
+```bash
+pip install -r requirements.txt
+```
+
+Set your OpenAI API key:  
+```bash
+export OPENAI_API_KEY=your_api_key_here
+```  
 
 ---
 
 ## 🚀 Quick Start  
 
-- ▶️ Create agent:  
-  ```bash
-  python main.py --create
-  ```  
+### Create your first agent  
+```bash
+python main.py --create
+```  
 
-- 💬 Start chatting:  
-  ```bash
-  python main.py --agent-id my-agent
-  ```  
+### Start chatting  
+```bash
+python main.py --agent-id my-agent
+```  
 
-- 📋 List agents:  
-  ```bash
-  python main.py --list
-  ```  
+### Use a specific model  
+```bash
+python main.py --agent-id my-agent --model gpt-4.1-mini
+```  
 
-- 🔍 Show models:  
-  ```bash
-  python main.py --models
-  ```  
+### List all agents  
+```bash
+python main.py --list
+```  
+
+### Show available models  
+```bash
+python main.py --models
+```  
+
+### Export a conversation  
+```bash
+python main.py --agent-id my-agent --export html
+```  
 
 ---
 
@@ -82,16 +94,16 @@
 
 | Command | Description |
 |---------|-------------|
-| `help` | Show commands |
-| `history [n]` | Last n messages |
-| `search <term>` | Search history |
+| `help` | Show all commands |
+| `history [n]` | Show last n messages |
+| `search <term>` | Search conversation history |
 | `stats` | Show statistics |
-| `config` | Current config |
-| `export <format>` | Export chat |
+| `config` | Show current configuration |
+| `export <format>` | Export chat (json/txt/md/html) |
 | `clear` | Clear history |
 | `files` | List files |
-| `model` | Show model info |
-| `switch <model>` | Switch model |
+| `model` | Show current model |
+| `switch <model>` | Switch to another model |
 | `quit` | Exit chat |  
 
 ---
@@ -125,56 +137,59 @@
 
 ## 🏗️ Architecture  
 
-- **`main.py`** → CLI interface  
-- **`agent.py`** → Core agent class  
-- **`config.py`** → Model configs  
-- **`utils.py`** → Helpers  
-- **`export.py`** → Export module  
-
-Data layout:  
 ```
-agents/
-└── {agent-id}/
-    ├── config.yaml
-    ├── history.json
-    ├── secrets.json
-    ├── backups/
-    ├── logs/
-    ├── exports/
-    └── uploads/
+gpt41-cli-agent/
+├── main.py
+├── agent.py
+├── config.py
+├── utils.py
+├── export.py
+├── requirements.txt
+└── agents/
+    └── {agent-id}/
+        ├── config.yaml
+        ├── history.json
+        ├── secrets.json
+        ├── backups/
+        ├── logs/
+        └── exports/
 ```  
-
----
-
-## 🎨 Features Deep Dive  
-
-- ⚡ Model-specific optimizations  
-- 📤 Export formats: JSON, TXT, MD, HTML  
-- 🔐 Security: API key storage, `.gitignore`, input validation  
-- 🛡️ Error handling: retries, timeouts, logging  
 
 ---
 
 ## 🔧 Advanced Usage  
 
-- 🔑 Env vars: `OPENAI_API_KEY=...`  
+- 🔑 Environment vars: `OPENAI_API_KEY=...`  
 - ⚙️ Options: temperature, max tokens, system prompt, streaming  
-- 🐞 Error handling: retry logic, logging  
+- 🐞 Error handling: retries, logs  
+
+---
+
+## 🔒 Security  
+
+- 🔑 Secure key storage  
+- 🚫 Sensitive data excluded from logs/exports  
+- ✅ Auto `.gitignore` support  
+
+---
+
+## 🐛 Troubleshooting  
+
+- ❌ Import errors → `pip install -r requirements.txt`  
+- 🔑 API key errors → `export OPENAI_API_KEY=...`  
+- 🔐 Permission errors → check directories  
+
+---
+
+## 📄 License  
+
+MIT License — professional & educational use.  
 
 ---
 
 ## 🤝 Contributing  
 
-- ✅ Type hints  
-- ✅ Modular design  
-- ✅ Error handling  
-- ✅ Extensible architecture  
-
----
-
-## 📝 License  
-
-MIT License — for professional and educational use.  
+Contributions welcome!  
 
 ---
 
