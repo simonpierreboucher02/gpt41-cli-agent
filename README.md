@@ -1,4 +1,5 @@
-# 🤖 OpenAI Unified Agent System
+# 🤖 OpenAI Gpt-4.1 Unified Agent System
+**Author:** Simon-Pierre Boucher
 
 A professional, unified Python interface for interacting with multiple OpenAI models including GPT-4.1, GPT-4.1-mini, and GPT-4.1-nano. This system provides a legendary user experience with advanced features and modern CLI design.
 
